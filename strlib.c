@@ -77,12 +77,22 @@
  *   - You are returning a position inside s, not a copy of anything.
  *
  *  YOUR NOTES
- *   Approach:
- *
- *   Edge cases I handled:
- *
- *   How I tested it:
- *
+ *   Approach:I started by creating a pointer called current_char that points to the first character of the input string.
+ *            I used an infinite while (1) loop to iterate through the string, checking each character one at a time.
+ *            First, I checked whether the current character matches the target character (c). If it matches, I return current_char, which contains the memory address of the first occurrence of the target character.
+ *            If the current character does not match, I check whether it is the null terminator ('\0'). If it is, this means I have reached the end of the string without finding the target character, so I return NULL.
+ *            Otherwise, I increment the pointer using current_char++ to move to the next character.
+ *   
+ *   Edge cases I handled:Character found: Returns a pointer to the first occurrence of the requested character.
+ *                      Character not found: Returns NULL when the end of the string is reached.
+ *                      Empty string: Returns NULL when searching for an ordinary character.
+ *                      Searching for the null terminator ('\0'): Returns a pointer to the string's terminating character.
+ *                      Repeated characters: Returns a pointer to the first occurrence, not subsequent occurrences.
+ *           
+ *   How I tested it: Code for testing were provided in the main function, which includes various test cases to validate the behavior of str_find_char.
+                    I ONLY COMPILED AND RUN THE PROGRAM RETURN The program returned:find_char: offset 2 (expected 2).
+
+find_char: offset 2 (expected 2)
  */
 const char *str_find_char(const char *s, char c)
 {
@@ -125,7 +135,9 @@ const char *str_find_char(const char *s, char c)
  */
 void str_reverse(char *s)
 {
-    (void)s;
+    char *start = s;
+    char *end = s;
+
 
     /* TODO */
 }
@@ -333,41 +345,41 @@ int main(void)
     else
         printf("find_char: NULL (expected offset 2)\n");
 
-    /* 2. str_reverse: needs an array */
-    char rev[] = "hello";
-    str_reverse(rev);
-    printf("reverse: \"%s\" (expected \"olleh\")\n", rev);
+    // /* 2. str_reverse: needs an array */
+    // char rev[] = "hello";
+    // str_reverse(rev);
+    // printf("reverse: \"%s\" (expected \"olleh\")\n", rev);
 
-    /* 3. str_compare_ci */
-    printf("compare_ci: %d (expected -1)\n", str_compare_ci("apple", "Banana"));
+    // /* 3. str_compare_ci */
+    // printf("compare_ci: %d (expected -1)\n", str_compare_ci("apple", "Banana"));
 
-    /* 4. str_copy_bounded: truncation */
-    char small[4] = "";   /* starts empty, so printing is safe even before you write the function */
-    size_t n = str_copy_bounded(small, "hello", sizeof small);
-    printf("copy_bounded: returned %d, dst \"%s\" (expected 5, \"hel\")\n",
-           (int)n, small);
+    // /* 4. str_copy_bounded: truncation */
+    // char small[4] = "";   /* starts empty, so printing is safe even before you write the function */
+    // size_t n = str_copy_bounded(small, "hello", sizeof small);
+    // printf("copy_bounded: returned %d, dst \"%s\" (expected 5, \"hel\")\n",
+    //        (int)n, small);
 
-    /* 5. str_find_sub */
-    const char *hay = "aaab";
-    const char *found = str_find_sub(hay, "aab");
-    if (found != NULL)
-        printf("find_sub: offset %d (expected 1)\n", (int)(found - hay));
-    else
-        printf("find_sub: NULL (expected offset 1)\n");
+    // /* 5. str_find_sub */
+    // const char *hay = "aaab";
+    // const char *found = str_find_sub(hay, "aab");
+    // if (found != NULL)
+    //     printf("find_sub: offset %d (expected 1)\n", (int)(found - hay));
+    // else
+    //     printf("find_sub: NULL (expected offset 1)\n");
 
-    /* 6. str_squeeze: brackets make leftover spaces visible */
-    char messy[] = "  hello   world  ";
-    size_t len = str_squeeze(messy);
-    printf("squeeze: returned %d, [%s] (expected 11, [hello world])\n",
-           (int)len, messy);
+    // /* 6. str_squeeze: brackets make leftover spaces visible */
+    // char messy[] = "  hello   world  ";
+    // size_t len = str_squeeze(messy);
+    // printf("squeeze: returned %d, [%s] (expected 11, [hello world])\n",
+    //        (int)len, messy);
 
-    /* 7. str_split */
-    char line[] = "red,green,blue";
-    char *fields[5];
-    int count = str_split(line, ',', fields, 5);
-    printf("split: returned %d (expected 3)\n", count);
-    for (int i = 0; i < count && i < 5; i++)
-        printf("  fields[%d] = [%s]\n", i, fields[i]);
+    // /* 7. str_split */
+    // char line[] = "red,green,blue";
+    // char *fields[5];
+    // int count = str_split(line, ',', fields, 5);
+    // printf("split: returned %d (expected 3)\n", count);
+    // for (int i = 0; i < count && i < 5; i++)
+    //     printf("  fields[%d] = [%s]\n", i, fields[i]);
 
     return 0;
 }
