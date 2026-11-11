@@ -3,8 +3,8 @@
  *  Assignment: Your Own String Library
  *  Course:     Programming with C
  *
- *  Name:       [YOUR NAME]
- *  Student ID: [YOUR ID]
+ *  Name:  IRAFASHA Schadrack
+ *  Student ID: 20251SEN246
  * ============================================================================
  *
  *  HOW TO COMPILE AND RUN
@@ -86,11 +86,19 @@
  */
 const char *str_find_char(const char *s, char c)
 {
-    (void)s;   /* remove these (void) lines once you use the parameters */
-    (void)c;
+    const char *current_char = s;
 
-    /* TODO */
-    return NULL;
+    while (1) {
+        if (*current_char == c) {
+            return current_char;
+        }
+
+        if (*current_char == '\0') {
+            return NULL;
+        }
+
+        current_char++;
+    }
 }
 
 
@@ -315,6 +323,8 @@ int str_split(char *s, char delim, char *fields[], int max_fields)
  */
 int main(void)
 {
+
+    
     /* 1. str_find_char: print the offset, or NULL */
     const char *word = "hello";
     const char *pos = str_find_char(word, 'l');
