@@ -194,13 +194,32 @@ void str_reverse(char *s)
  *   - Return -1 or 1 yourself. Do not return the difference of two
  *     characters: 'a' - 'z' is -25, not -1.
  *
- *  YOUR NOTES
- *   Approach:
+ *  
+ * YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Used two pointers to compare characters from both strings.
+ * - Converted uppercase ASCII letters (A-Z) to lowercase manually.
+ * - Compared the characters at the same positions.
+ * - Returned -1 if the first character was smaller.
+ * - Returned 1 if the first character was greater.
+ * - Moved both pointers forward when characters matched.
+ * - Checked which string ended first to determine the final result.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - Strings with different uppercase and lowercase letters.
+ * - Identical strings regardless of letter case.
+ * - Empty strings.
+ * - Strings with different lengths.
+ * - One string being a prefix of another.
  *
+ * How I tested it:
+ * - Compared "apple" with "Banana"; expected -1.
+ * - Compared "HELLO" with "hello"; expected 0.
+ * - Compared "dog" with "cat"; expected 1.
+ * - Compared "cat" with "catalog"; expected -1.
+ * - Compared "catalog" with "cat"; expected 1.
+ * - Confirmed that the function returns exactly -1, 0, or 1.
  */
 
  int str_compare_ci(const char *a, const char *b)
@@ -278,12 +297,29 @@ void str_reverse(char *s)
  */
 size_t str_copy_bounded(char *dst, const char *src, size_t size)
 {
-    (void)dst;
-    (void)src;
-    (void)size;
+    size_t length = 0;
+    size_t i = 0;
 
-    /* TODO */
-    return 0;
+    // Calculate the original source length
+    while (src[length] != '\0') {
+        length++;
+    }
+
+    // If size is zero, do not write to destination
+    if (size == 0) {
+        return length;
+    }
+
+    // Copy at most size - 1 characters
+    while (i < size - 1 && src[i] != '\0') {
+        dst[i] = src[i];
+        i++;
+    }
+
+    // Always terminate the destination
+    dst[i] = '\0';
+
+    return length;
 }
 
 
