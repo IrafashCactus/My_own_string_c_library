@@ -534,23 +534,74 @@ size_t str_squeeze(char *s)
  *   - If your logic is right, the empty string "" needs no special case.
  *     It has zero delimiters, so how many fields?
  *
- *  YOUR NOTES
- *   Approach:
+ *  
+ * YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Initialized field_count to 1 because every string has
+ *   at least one field, even if it contains no delimiter.
+ * - Stored the beginning of the first field in fields[0]
+ *   when the array had available space.
+ * - Used a pointer called current to traverse the string.
+ * - Checked each character to find the delimiter.
+ * - Replaced each delimiter with the null terminator ('\0')
+ *   to separate the fields.
+ * - Increased field_count whenever a delimiter was found.
+ * - Stored the starting address of the next field using
+ *   current + 1, provided the array had enough space.
+ * - Returned the total number of fields found.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - String containing no delimiters.
+ * - Empty string.
+ * - Consecutive delimiters, creating empty fields.
+ * - Leading delimiter, creating an empty first field.
+ * - Trailing delimiter, creating an empty last field.
+ * - More fields than the fields array can store.
+ * - max_fields equal to zero.
+ *
+ * How I tested it:
+ * - Split a string containing "red,green,blue" using a comma.
+ * - Checked that the function returned 3.
+ * - Checked that fields[0] contained "red".
+ * - Checked that fields[1] contained "green".
+ * - Checked that fields[2] contained "blue".
+ * - Confirmed that the output matched the expected result.
+ * - Compiled using gcc with -Wall -Wextra -g.
+ *
  *
  */
 int str_split(char *s, char delim, char *fields[], int max_fields)
 {
-    (void)s;
-    (void)delim;
-    (void)fields;
-    (void)max_fields;
+    int field_count = 1;
 
-    /* TODO */
-    return 0;
+    // Store the beginning of the first field
+    if (max_fields > 0) {
+        fields[0] = s;
+    }
+
+    char *current = s;
+
+    while (*current != '\0') {
+
+        if (*current == delim) {
+
+            // Replace delimiter with null terminator
+            *current = '\0';
+
+            // Count the next field
+            field_count++;
+
+            // Store its starting address if space is available
+            if (field_count <= max_fields) {
+                fields[field_count - 1] = current + 1;
+            }
+        }
+
+        current++;
+    }
+
+    return field_count;
 }
 
 
