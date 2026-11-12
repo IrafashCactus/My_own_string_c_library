@@ -124,12 +124,30 @@ const char *str_find_char(const char *s, char c)
  *   - Careful with "": there is no last character. Make sure your end pointer
  *     never goes before the start of the string.
  *
- *  YOUR NOTES
- *   Approach:
+ *   * YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Used two pointers: start and end.
+ * - start points to the first character of the string.
+ * - Moved end forward until it reached the null terminator ('\0').
+ * - Checked whether the string was empty before moving end backward.
+ * - Moved end backward to point to the last actual character.
+ * - Used a temporary variable to swap the characters at start and end.
+ * - Continued swapping while start was before end.
+ * - Moved start forward and end backward after each swap.
+ * - Reversed the string in place without creating another array.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - Empty string: returned immediately without changing anything.
+ * - Single-character string: remained unchanged.
+ * - Even-length string: swapped characters until the pointers met.
+ * - Odd-length string: the middle character remained in its position.
+ *
+ * How I tested it:
+ * - Tested with "hello", which became "olleh".
+ * - Checked that the original array was modified directly.
+ * - Confirmed that the program compiled and ran successfully
+ *   using gcc without warnings.
  *
  */
 void str_reverse(char *s)
@@ -184,13 +202,49 @@ void str_reverse(char *s)
  *   How I tested it:
  *
  */
-int str_compare_ci(const char *a, const char *b)
-{
-    (void)a;
-    (void)b;
 
-    /* TODO */
-    return 0;
+ int str_compare_ci(const char *a, const char *b)
+{
+    while (*a != '\0' && *b != '\0') {
+
+        char char_a = *a;
+        char char_b = *b;
+
+        // Convert uppercase A-Z to lowercase
+        if (char_a >= 'A' && char_a <= 'Z') {
+            char_a = char_a + ('a' - 'A');
+        }
+
+        if (char_b >= 'A' && char_b <= 'Z') {
+            char_b = char_b + ('a' - 'A');
+        }
+
+        // Compare the characters
+        if (char_a < char_b) {
+            return -1;
+        }
+
+        if (char_a > char_b) {
+            return 1;
+        }
+
+        // Move to the next characters
+        a++;
+        b++;
+    }
+
+    // Both strings ended: they are equal
+    if (*a == '\0' && *b == '\0') {
+        return 0;
+    }
+
+    // First string ended: it is shorter
+    if (*a == '\0') {
+        return -1;
+    }
+
+    // Second string ended: it is shorter
+    return 1;
 }
 
 
