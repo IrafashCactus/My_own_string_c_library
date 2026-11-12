@@ -358,7 +358,7 @@ size_t str_copy_bounded(char *dst, const char *src, size_t size)
  *   - Pointers here are const char *. Any pointer you create to walk through
  *     hay or needle must be const char * as well, or you'll get a warning.
  *
- * /*
+ * 
  * YOUR NOTES
  *
  * Approach:
@@ -441,20 +441,75 @@ const char *str_find_sub(const char *hay, const char *needle)
  *   - Always finish by writing '\0' at the write pointer.
  *   - The new length is how far the write pointer moved.
  *
- *  YOUR NOTES
- *   Approach:
+ *  
+ * YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Used two pointers: read and write.
+ * - The read pointer moves through the original string.
+ * - The write pointer stores only the characters that should remain.
+ * - Skipped leading spaces and tabs.
+ * - Detected consecutive spaces and tabs and skipped the entire group.
+ * - Replaced each internal group of whitespace with one ordinary space.
+ * - Avoided adding a space at the end of the string.
+ * - Added the null terminator ('\0') to finish the cleaned string.
+ * - Returned the length of the cleaned string.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - Leading spaces and tabs.
+ * - Trailing spaces and tabs.
+ * - Multiple consecutive spaces.
+ * - Multiple consecutive tabs.
+ * - Mixed spaces and tabs.
+ * - Empty string.
+ * - String containing only spaces or tabs.
+ * - String containing no unnecessary whitespace.
+ *
+ * How I tested it:
+ * - Used the input "  hello   world  ".
+ * - Checked that the output was "hello world".
+ * - Checked that the returned length was 11.
+ * - Used brackets in the output to make leftover spaces visible.
+ * - Confirmed that the original array was modified directly.
+ * - Compiled using gcc with -Wall -Wextra -g.
  *
  */
 size_t str_squeeze(char *s)
 {
-    (void)s;
+    char *read = s;
+    char *write = s;
+    size_t length = 0;
 
-    /* TODO */
-    return 0;
+    while (*read == ' ' || *read == '\t') {
+        read++;
+    }
+
+    while (*read != '\0') {
+
+        if (*read == ' ' || *read == '\t') {
+
+            while (*read == ' ' || *read == '\t') {
+                read++;
+            }
+
+            if (*read != '\0') {
+                *write = ' ';
+                write++;
+                length++;
+            }
+
+        } else {
+
+            *write = *read;
+            write++;
+            read++;
+            length++;
+        }
+    }
+
+    *write = '\0';
+
+    return length;
 }
 
 
