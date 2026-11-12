@@ -358,23 +358,71 @@ size_t str_copy_bounded(char *dst, const char *src, size_t size)
  *   - Pointers here are const char *. Any pointer you create to walk through
  *     hay or needle must be const char * as well, or you'll get a warning.
  *
- *  YOUR NOTES
- *   Approach:
+ * /*
+ * YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Checked whether the needle was empty; if so, returned
+ *   the beginning of the main string.
+ * - Used a pointer to check every possible starting position
+ *   in the main string.
+ * - Used two temporary pointers to compare characters from
+ *   the main string and the needle.
+ * - Compared characters one by one while they matched.
+ * - Returned the starting position when the entire needle
+ *   was found.
+ * - Moved to the next starting position when characters
+ *   did not match.
+ * - Returned NULL if no complete match was found.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - Substring found at the beginning.
+ * - Substring found in the middle or at the end.
+ * - Substring not found.
+ * - Empty needle.
+ * - Overlapping possible matches.
+ * - Empty main string.
+ *
+ * How I tested it:
+ * - Searched for "aab" inside "aaab".
+ * - Checked that the returned pointer had offset 1.
+ * - Confirmed that the output matched the expected result.
+ * - Compiled using gcc with -Wall -Wextra -g.
  *
  */
 const char *str_find_sub(const char *hay, const char *needle)
 {
-    (void)hay;
-    (void)needle;
+    // An empty needle matches at the beginning
+    if (*needle == '\0') {
+        return hay;
+    }
 
-    /* TODO */
+    // Check every possible starting position
+    while (*hay != '\0') {
+
+        const char *current_hay = hay;
+        const char *current_needle = needle;
+
+        // Compare characters one by one
+        while (*current_hay != '\0' &&
+               *current_needle != '\0' &&
+               *current_hay == *current_needle) {
+
+            current_hay++;
+            current_needle++;
+        }
+
+        // Entire needle was found
+        if (*current_needle == '\0') {
+            return hay;
+        }
+
+        // Try the next starting position
+        hay++;
+    }
+
     return NULL;
 }
-
 
 /* ============================================================================
  *  6. str_squeeze
