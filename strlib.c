@@ -92,7 +92,6 @@
  *   How I tested it: Code for testing were provided in the main function, which includes various test cases to validate the behavior of str_find_char.
                     I ONLY COMPILED AND RUN THE PROGRAM RETURN The program returned:find_char: offset 2 (expected 2).
 
-find_char: offset 2 (expected 2)
  */
 const char *str_find_char(const char *s, char c)
 {
@@ -137,10 +136,28 @@ void str_reverse(char *s)
 {
     char *start = s;
     char *end = s;
+    char temp;
 
+    while (*end != '\0') {
+        end++;
+    }
 
-    /* TODO */
+    if (end == start) {
+        return;
+    }
+
+    end--;
+
+    while (start < end) {
+        temp = *start;
+        *start = *end;
+        *end = temp;
+
+        start++;
+        end--;
+    }
 }
+
 
 
 /* ============================================================================
@@ -345,41 +362,41 @@ int main(void)
     else
         printf("find_char: NULL (expected offset 2)\n");
 
-    // /* 2. str_reverse: needs an array */
-    // char rev[] = "hello";
-    // str_reverse(rev);
-    // printf("reverse: \"%s\" (expected \"olleh\")\n", rev);
+    /* 2. str_reverse: needs an array */
+    char rev[] = "hello";
+    str_reverse(rev);
+    printf("reverse: \"%s\" (expected \"olleh\")\n", rev);
 
-    // /* 3. str_compare_ci */
-    // printf("compare_ci: %d (expected -1)\n", str_compare_ci("apple", "Banana"));
+    /* 3. str_compare_ci */
+    printf("compare_ci: %d (expected -1)\n", str_compare_ci("apple", "Banana"));
 
-    // /* 4. str_copy_bounded: truncation */
-    // char small[4] = "";   /* starts empty, so printing is safe even before you write the function */
-    // size_t n = str_copy_bounded(small, "hello", sizeof small);
-    // printf("copy_bounded: returned %d, dst \"%s\" (expected 5, \"hel\")\n",
-    //        (int)n, small);
+    /* 4. str_copy_bounded: truncation */
+    char small[4] = "";   /* starts empty, so printing is safe even before you write the function */
+    size_t n = str_copy_bounded(small, "hello", sizeof small);
+    printf("copy_bounded: returned %d, dst \"%s\" (expected 5, \"hel\")\n",
+           (int)n, small);
 
-    // /* 5. str_find_sub */
-    // const char *hay = "aaab";
-    // const char *found = str_find_sub(hay, "aab");
-    // if (found != NULL)
-    //     printf("find_sub: offset %d (expected 1)\n", (int)(found - hay));
-    // else
-    //     printf("find_sub: NULL (expected offset 1)\n");
+    /* 5. str_find_sub */
+    const char *hay = "aaab";
+    const char *found = str_find_sub(hay, "aab");
+    if (found != NULL)
+        printf("find_sub: offset %d (expected 1)\n", (int)(found - hay));
+    else
+        printf("find_sub: NULL (expected offset 1)\n");
 
-    // /* 6. str_squeeze: brackets make leftover spaces visible */
-    // char messy[] = "  hello   world  ";
-    // size_t len = str_squeeze(messy);
-    // printf("squeeze: returned %d, [%s] (expected 11, [hello world])\n",
-    //        (int)len, messy);
+    /* 6. str_squeeze: brackets make leftover spaces visible */
+    char messy[] = "  hello   world  ";
+    size_t len = str_squeeze(messy);
+    printf("squeeze: returned %d, [%s] (expected 11, [hello world])\n",
+           (int)len, messy);
 
-    // /* 7. str_split */
-    // char line[] = "red,green,blue";
-    // char *fields[5];
-    // int count = str_split(line, ',', fields, 5);
-    // printf("split: returned %d (expected 3)\n", count);
-    // for (int i = 0; i < count && i < 5; i++)
-    //     printf("  fields[%d] = [%s]\n", i, fields[i]);
+    /* 7. str_split */
+    char line[] = "red,green,blue";
+    char *fields[5];
+    int count = str_split(line, ',', fields, 5);
+    printf("split: returned %d (expected 3)\n", count);
+    for (int i = 0; i < count && i < 5; i++)
+        printf("  fields[%d] = [%s]\n", i, fields[i]);
 
     return 0;
 }
