@@ -287,13 +287,31 @@ void str_reverse(char *s)
  *   - Draw dst as a row of boxes and fill them in by hand for
  *     ("hello", size 4) before you write any code.
  *
- *  YOUR NOTES
- *   Approach:
+ *   YOUR NOTES
  *
- *   Edge cases I handled:
+ * Approach:
+ * - Used a variable called length to calculate the original
+ *   length of the source string.
+ * - Used a variable called i to track the number of copied characters.
+ * - Copied characters from the source into the destination
+ *   while i was less than size - 1.
+ * - Reserved one position for the null terminator ('\0').
+ * - Added the null terminator at the end of the copied string.
+ * - Returned the original length of the source string.
  *
- *   How I tested it:
+ * Edge cases I handled:
+ * - Destination smaller than the source string (truncation).
+ * - Destination larger than the source string.
+ * - Destination size of zero: no writing to destination.
+ * - Destination size of one: only the null terminator fits.
+ * - Empty source string.
  *
+ * How I tested it:
+ * - Copied "hello" into a destination array of size 4.
+ * - Checked that the destination contained "hel".
+ * - Checked that the returned length was 5.
+ * - Confirmed that the actual output matched the expected output.
+ * - Compiled using gcc with -Wall -Wextra -g.
  */
 size_t str_copy_bounded(char *dst, const char *src, size_t size)
 {
