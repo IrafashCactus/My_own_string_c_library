@@ -612,53 +612,64 @@ int str_split(char *s, char delim, char *fields[], int max_fields)
  *  edge cases in the README. Remember: functions that MODIFY a string need a
  *  char array (char s[] = "..."), not a string literal (char *s = "...").
  */
+
 int main(void)
 {
-
-    
-    /* 1. str_find_char: print the offset, or NULL */
+    /* 1. str_find_char */
     const char *word = "hello";
     const char *pos = str_find_char(word, 'l');
+
     if (pos != NULL)
-        printf("find_char: offset %d (expected 2)\n", (int)(pos - word));
+        printf("find_char: offset %td (expected 2)\n", pos - word);
     else
         printf("find_char: NULL (expected offset 2)\n");
 
-    /* 2. str_reverse: needs an array */
+    /* 2. str_reverse */
     char rev[] = "hello";
     str_reverse(rev);
     printf("reverse: \"%s\" (expected \"olleh\")\n", rev);
 
     /* 3. str_compare_ci */
-    printf("compare_ci: %d (expected -1)\n", str_compare_ci("apple", "Banana"));
+    printf("compare_ci: %d (expected -1)\n",
+           str_compare_ci("apple", "Banana"));
 
-    /* 4. str_copy_bounded: truncation */
-    char small[4] = "";   /* starts empty, so printing is safe even before you write the function */
+    printf("compare_ci equal: %d (expected 0)\n",
+           str_compare_ci("HELLO", "hello"));
+
+    /* 4. str_copy_bounded */
+    char small[4] = "";
     size_t n = str_copy_bounded(small, "hello", sizeof small);
-    printf("copy_bounded: returned %d, dst \"%s\" (expected 5, \"hel\")\n",
-           (int)n, small);
+
+    printf("copy_bounded: returned %zu, dst \"%s\" "
+           "(expected 5, \"hel\")\n", n, small);
 
     /* 5. str_find_sub */
     const char *hay = "aaab";
     const char *found = str_find_sub(hay, "aab");
+
     if (found != NULL)
-        printf("find_sub: offset %d (expected 1)\n", (int)(found - hay));
+        printf("find_sub: offset %td (expected 1)\n", found - hay);
     else
         printf("find_sub: NULL (expected offset 1)\n");
 
-    /* 6. str_squeeze: brackets make leftover spaces visible */
+    /* 6. str_squeeze */
     char messy[] = "  hello   world  ";
     size_t len = str_squeeze(messy);
-    printf("squeeze: returned %d, [%s] (expected 11, [hello world])\n",
-           (int)len, messy);
+
+    printf("squeeze: returned %zu, [%s] "
+           "(expected 11, [hello world])\n", len, messy);
 
     /* 7. str_split */
     char line[] = "red,green,blue";
     char *fields[5];
+
     int count = str_split(line, ',', fields, 5);
+
     printf("split: returned %d (expected 3)\n", count);
-    for (int i = 0; i < count && i < 5; i++)
+
+    for (int i = 0; i < count && i < 5; i++) {
         printf("  fields[%d] = [%s]\n", i, fields[i]);
+    }
 
     return 0;
 }
